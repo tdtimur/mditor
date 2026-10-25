@@ -1,0 +1,18 @@
+# Package Managers
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+bun.lock
+bun.lockb
+
+# AI Tooling & Generated Directories
+.gemini/
+.claude/
+.opencode/
+dist/
+dist-bundle/
+build/
+.svelte-kit/
+
+# Miscellaneous
+/static/

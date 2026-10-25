@@ -1,0 +1,55 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # needed to create a GitHub Release
+      packages: write # needed to publish to GitHub Packages NPM registry
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: 'https://npm.pkg.github.com'
+          cache: npm
+
+      - run: npm ci
+
+      - name: Install Playwright browser
+        run: npx playwright install chromium --with-deps
+
+      - name: Test
+        run: npm test
+
+      - name: Build package & bundle
+        run: |
+          npm run build
+          npm run build:bundle
+        # Produces dist/ (npm package) and dist-bundle/mditor.js (standalone WC bundle)
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist-bundle/mditor.js
+          generate_release_notes: true
+
+      - name: Publish to GitHub Packages
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          OWNER=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
+          CURRENT_NAME=$(node -p "require('./package.json').name")
+          if [[ "$CURRENT_NAME" != @* ]]; then
+            npm pkg set name="@${OWNER}/${CURRENT_NAME}"
+          fi
+          npm pkg set repository.type="git"
+          npm pkg set repository.url="https://github.com/${{ github.repository }}.git"
+          npm publish
