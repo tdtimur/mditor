@@ -27,8 +27,12 @@ jobs:
 
       - run: npm ci
 
-      - name: Build demo site
-        run: npm run build
+      - name: Build demo site & standalone bundle
+        run: |
+          npm run build
+          npm run build:bundle
+          cp dist-bundle/mditor.js build/mditor.js
+          cp dist-bundle/mditor.css build/mditor.css
         env:
           BASE_PATH: '/${{ github.event.repository.name }}'
 

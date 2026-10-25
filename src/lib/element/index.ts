@@ -1,8 +1,13 @@
-import { defineMDitorElement, ensureMDitorStyles, MDitorElement } from './mditor-element.svelte.js';
+import {
+	defineMDitorElement,
+	ensureMDitorStyles,
+	MDitorElement
+} from './mditor-element.svelte.js';
 
 defineMDitorElement('md-itor');
 
 export { defineMDitorElement, ensureMDitorStyles, MDitorElement };
+export { MDitor } from '../index.js';
 export {
 	katexExtension,
 	mermaidExtension,
