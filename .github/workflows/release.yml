@@ -50,6 +50,8 @@ jobs:
           if [[ "$CURRENT_NAME" != @* ]]; then
             npm pkg set name="@${OWNER}/${CURRENT_NAME}"
           fi
+          TAG_VERSION="${GITHUB_REF_NAME#v}"
+          npm pkg set version="${TAG_VERSION}"
           npm pkg set repository.type="git"
           npm pkg set repository.url="https://github.com/${{ github.repository }}.git"
           npm publish
