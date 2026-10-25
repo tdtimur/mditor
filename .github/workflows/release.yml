@@ -29,16 +29,27 @@ jobs:
       - name: Test
         run: npm test
 
-      - name: Build package & bundle
+      - name: Sync version from git tag
+        run: |
+          TAG_VERSION="${GITHUB_REF_NAME#v}"
+          npm pkg set version="${TAG_VERSION}"
+          npm pkg set repository.type="git"
+          npm pkg set repository.url="https://github.com/${{ github.repository }}.git"
+
+      - name: Build package, standalone bundle & release tarball
         run: |
           npm run build
           npm run build:bundle
-        # Produces dist/ (npm package) and dist-bundle/mditor.js (standalone WC bundle)
+          npm pack
+          mv ./*.tgz dist-bundle/mditor.tgz
+        # Produces dist-bundle/mditor.js (standalone WC bundle) and dist-bundle/mditor.tgz (zero-auth npm tarball)
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          files: dist-bundle/mditor.js
+          files: |
+            dist-bundle/mditor.js
+            dist-bundle/mditor.tgz
           generate_release_notes: true
 
       - name: Publish to GitHub Packages
@@ -50,8 +61,4 @@ jobs:
           if [[ "$CURRENT_NAME" != @* ]]; then
             npm pkg set name="@${OWNER}/${CURRENT_NAME}"
           fi
-          TAG_VERSION="${GITHUB_REF_NAME#v}"
-          npm pkg set version="${TAG_VERSION}"
-          npm pkg set repository.type="git"
-          npm pkg set repository.url="https://github.com/${{ github.repository }}.git"
-          npm publish
+          npm publish --ignore-scripts

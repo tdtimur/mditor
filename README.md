@@ -43,25 +43,38 @@ MDitor is a lightweight, user-friendly Markdown editor inspired by GitLab's Mark
 
 ## Installation
 
-### Option 1: GitHub Packages (NPM)
+### Option 1: Install from GitHub Release Tarball (No Auth or `.npmrc` Required)
 
-MDitor is published via **GitHub Packages** (`https://npm.pkg.github.com`).
+Each release attaches a pre-built npm package tarball (`mditor.tgz`). You can install it directly with `npm` without configuring `.npmrc` or tokens, and all dependencies (`marked`, `dompurify`, `svelte`) continue to resolve from the standard public npm registry:
 
-1. Configure your `.npmrc` to point your scope/package to GitHub Packages:
+```bash
+# Latest release
+npm install https://github.com/tdtimur/mditor/releases/latest/download/mditor.tgz
+
+# Or pin a specific release tag
+npm install https://github.com/tdtimur/mditor/releases/download/v0.1.2/mditor.tgz
+```
+
+### Option 2: GitHub Packages NPM Registry (`@tdtimur/mditor`)
+
+> **Note:** GitHub Packages (`https://npm.pkg.github.com`) requires a GitHub Personal Access Token (classic) with `read:packages` scope even for public packages. Scoping the registry to `@tdtimur:registry` ensures all other packages still install from the default public npm registry (`https://registry.npmjs.org`).
+
+1. Add the `@tdtimur` scope and token to your `.npmrc`:
 
 ```ini
-registry=https://npm.pkg.github.com
+@tdtimur:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
 ```
 
 2. Install the package:
 
 ```bash
-npm install mditor
+npm install @tdtimur/mditor
 ```
 
-### Option 2: Direct Download (Standalone Web Component Bundle)
+### Option 3: Direct Download (Standalone Web Component Bundle)
 
-Each release ships a self-contained ES module bundle (`mditor.js`) as a GitHub Release asset:
+Each release also ships a self-contained ES module bundle (`mditor.js`) as a GitHub Release asset:
 
 ```
 https://github.com/tdtimur/mditor/releases/latest/download/mditor.js
@@ -82,11 +95,11 @@ The single `mditor.js` file includes the Svelte runtime, `marked`, `DOMPurify`, 
 
 ### Package Entry Points
 
-| Import Path         | Target        | Description                                                                                    |
-| ------------------- | ------------- | ---------------------------------------------------------------------------------------------- |
-| `mditor`            | Svelte 5      | Exports `<MDitor />` component, rendering helpers, and TypeScript types.                       |
-| `mditor/element`    | Web Component | Registers `<md-itor>` custom element (resolves to a standalone bundle in non-Svelte projects). |
-| `mditor/extensions` | Both          | Exports `katexExtension`, `prismExtension`, and `mermaidExtension`.                            |
+| Import Path                                           | Target        | Description                                                                                    |
+| ----------------------------------------------------- | ------------- | ---------------------------------------------------------------------------------------------- |
+| `mditor` (or `@tdtimur/mditor`)                       | Svelte 5      | Exports `<MDitor />` component, rendering helpers, and TypeScript types.                       |
+| `mditor/element` (or `@tdtimur/mditor/element`)       | Web Component | Registers `<md-itor>` custom element (resolves to a standalone bundle in non-Svelte projects). |
+| `mditor/extensions` (or `@tdtimur/mditor/extensions`) | Both          | Exports `katexExtension`, `prismExtension`, and `mermaidExtension`.                            |
 
 ---
 
