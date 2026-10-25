@@ -2,6 +2,9 @@
 
 MDitor is a lightweight, user-friendly Markdown editor inspired by GitLab's Markdown editor. It is written in **Svelte 5** with TypeScript and published as both a **Svelte component** (`mditor`) and a **Web Component** (`mditor/element`), with optional tree-shakeable extensions (`mditor/extensions`).
 
+- **Live Demo (GitHub Pages)**: [https://tdtimur.github.io/mditor/](https://tdtimur.github.io/mditor/)
+- **Web Component Sandbox (CodeSandbox)**: [https://codesandbox.io/p/sandbox/m6nh3p](https://codesandbox.io/p/sandbox/m6nh3p)
+
 ---
 
 ## Table of Contents
@@ -132,7 +135,9 @@ Pass raw Markdown via `value` (or `bind:value`), and read the rendered, sanitize
 
 ### 2. Web Component (`<md-itor>`)
 
-Import `mditor/element` to automatically register the `<md-itor>` custom element. You can pass initial Markdown via the `value` attribute or `.value` property, configure `.extensions`, and read `.value` or `.html` at any time:
+Try it live on **[CodeSandbox](https://codesandbox.io/p/sandbox/m6nh3p)**.
+
+Import `mditor/element` (or the standalone bundle `https://tdtimur.github.io/mditor/mditor.js`) to automatically register the `<md-itor>` custom element. You can pass initial Markdown via the `value` attribute or `.value` property, configure `.extensions`, and read `.value` or `.html` at any time:
 
 ```html
 <!-- Optional: load third-party scripts/styles on the page for extensions -->
@@ -513,6 +518,7 @@ git tag v0.1.0
 git push origin main --tags
 ```
 
-### Live Demo (GitHub Pages)
+### Live Demos
 
-The interactive playground (`src/routes/+page.svelte`) is automatically built and deployed to GitHub Pages on every push to `main` via `.github/workflows/pages.yml`.
+- **Interactive Playground (GitHub Pages)**: [https://tdtimur.github.io/mditor/](https://tdtimur.github.io/mditor/) — automatically built and deployed on every push to `main` via `.github/workflows/pages.yml`.
+- **Web Component Demo (CodeSandbox)**: [https://codesandbox.io/p/sandbox/m6nh3p](https://codesandbox.io/p/sandbox/m6nh3p)
