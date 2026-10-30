@@ -47,6 +47,33 @@ describe('MDitor.svelte', () => {
 		await expect.element(textarea).toHaveValue('**bold text**');
 	});
 
+	it('preserves scroll position when inserting items or formatting with long content', async () => {
+		const longText = Array.from({ length: 50 }, (_, i) => `Line ${i + 1}`).join('\n');
+		const { container } = render(MDitor, {
+			value: longText
+		});
+
+		const textarea = container.querySelector('textarea')!;
+		expect(textarea.scrollHeight).toBeGreaterThan(textarea.clientHeight);
+
+		// 1. Cursor at top (scrollTop = 0): should not scroll down to bottom on toolbar click
+		textarea.focus();
+		textarea.setSelectionRange(0, 0);
+		textarea.scrollTop = 0;
+
+		const linkBtn = page.getByRole('button', { name: 'Add a link' });
+		await linkBtn.click();
+
+		expect(textarea.scrollTop).toBe(0);
+
+		// 2. Scrolled down (scrollTop = 300): should preserve scroll position
+		textarea.scrollTop = 300;
+		const codeBtn = page.getByRole('button', { name: 'Insert code', exact: true });
+		await codeBtn.click();
+
+		expect(textarea.scrollTop).toBe(300);
+	});
+
 	it('toggles fullscreen mode via the toolbar button', async () => {
 		const { container } = render(MDitor, { value: 'Test' });
 		const root = container.querySelector('.mditor');

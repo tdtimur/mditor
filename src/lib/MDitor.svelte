@@ -91,6 +91,8 @@
 	}
 
 	async function applyEditorState(nextState: EditorState, recordHistory = true): Promise<void> {
+		const savedScrollTop = textareaEl?.scrollTop;
+		const savedScrollLeft = textareaEl?.scrollLeft;
 		value = nextState.value;
 		if (recordHistory) {
 			history.push(nextState);
@@ -100,8 +102,14 @@
 
 		await tick();
 		if (textareaEl && mode === 'write') {
-			textareaEl.focus();
 			textareaEl.setSelectionRange(nextState.selectionStart, nextState.selectionEnd);
+			textareaEl.focus({ preventScroll: true });
+			if (savedScrollTop !== undefined) {
+				textareaEl.scrollTop = savedScrollTop;
+			}
+			if (savedScrollLeft !== undefined) {
+				textareaEl.scrollLeft = savedScrollLeft;
+			}
 		}
 	}
 
@@ -159,7 +167,7 @@
 
 		const currentState = getEditorState();
 
-		// Check Mod+B, Mod+I, Mod+K, Mod+Z, Mod+Shift+Z, Mod+Y
+		// Check Ctrl/Cmd+B, Ctrl/Cmd+I, Ctrl/Cmd+K, Ctrl/Cmd+Z, Ctrl/Cmd+Shift+Z, Ctrl/Cmd+Y
 		const shortcut = resolveShortcut(event, currentState);
 		if (shortcut) {
 			event.preventDefault();
@@ -233,6 +241,7 @@
 					aria-label={item.label}
 					disabled={disabled || readonly || mode === 'preview'}
 					data-command={item.command}
+					onmousedown={(e) => e.preventDefault()}
 					onclick={() => handleToolbarAction(item.command)}
 				>
 					{#if item.command === 'heading'}
@@ -310,10 +319,11 @@
 			<button
 				type="button"
 				class="mditor__btn"
-				title="Undo (Mod+Z)"
+				title="Undo (Ctrl/Cmd+Z)"
 				aria-label="Undo"
 				disabled={disabled || readonly || mode === 'preview' || !canUndo}
 				data-command="undo"
+				onmousedown={(e) => e.preventDefault()}
 				onclick={handleUndo}
 			>
 				<svg viewBox="0 0 16 16" aria-hidden="true">
@@ -325,10 +335,11 @@
 			<button
 				type="button"
 				class="mditor__btn"
-				title="Redo (Mod+Shift+Z)"
+				title="Redo (Ctrl/Cmd+Shift+Z)"
 				aria-label="Redo"
 				disabled={disabled || readonly || mode === 'preview' || !canRedo}
 				data-command="redo"
+				onmousedown={(e) => e.preventDefault()}
 				onclick={handleRedo}
 			>
 				<svg viewBox="0 0 16 16" aria-hidden="true">

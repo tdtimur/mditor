@@ -170,7 +170,7 @@ describe('keyboard handlers', () => {
 		expect(outdented.value).toBe('- item 1\n- item 2');
 	});
 
-	it('resolves keyboard shortcuts (Mod+B, Mod+I, Mod+K, Mod+Z, Mod+Shift+Z, Mod+Y)', () => {
+	it('resolves keyboard shortcuts (Ctrl/Cmd+B, Ctrl/Cmd+I, Ctrl/Cmd+K, Ctrl/Cmd+Z, Ctrl/Cmd+Shift+Z, Ctrl/Cmd+Y)', () => {
 		const state = { value: 'word', selectionStart: 0, selectionEnd: 4 };
 
 		const boldAction = resolveShortcut({ key: 'b', metaKey: true }, state);

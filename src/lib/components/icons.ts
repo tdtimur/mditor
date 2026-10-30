@@ -9,13 +9,13 @@ export interface ToolbarItemConfig {
 
 export const TOOLBAR_ITEMS: ToolbarItemConfig[] = [
 	{ command: 'heading', label: 'Add heading text', group: 'block' },
-	{ command: 'bold', label: 'Add bold text', shortcut: 'Mod+B', group: 'inline' },
-	{ command: 'italic', label: 'Add italic text', shortcut: 'Mod+I', group: 'inline' },
+	{ command: 'bold', label: 'Add bold text', shortcut: 'Ctrl/Cmd+B', group: 'inline' },
+	{ command: 'italic', label: 'Add italic text', shortcut: 'Ctrl/Cmd+I', group: 'inline' },
 	{ command: 'strikethrough', label: 'Add strikethrough text', group: 'inline' },
 	{ command: 'blockquote', label: 'Insert a quote', group: 'block' },
 	{ command: 'inlineCode', label: 'Insert code', group: 'inline' },
 	{ command: 'codeBlock', label: 'Insert code block', group: 'block' },
-	{ command: 'link', label: 'Add a link', shortcut: 'Mod+K', group: 'insert' },
+	{ command: 'link', label: 'Add a link', shortcut: 'Ctrl/Cmd+K', group: 'insert' },
 	{ command: 'image', label: 'Add an image', group: 'insert' },
 	{ command: 'table', label: 'Add a table', group: 'insert' },
 	{ command: 'horizontalRule', label: 'Add a horizontal rule', group: 'insert' },

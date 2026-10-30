@@ -160,7 +160,7 @@ export type ShortcutAction =
 	| { type: 'redo' };
 
 /**
- * Resolves a keyboard shortcut (`Mod+B`, `Mod+I`, `Mod+K`, `Mod+Z`, `Mod+Shift+Z`, `Mod+Y`)
+ * Resolves a keyboard shortcut (`Ctrl/Cmd+B`, `Ctrl/Cmd+I`, `Ctrl/Cmd+K`, `Ctrl/Cmd+Z`, `Ctrl/Cmd+Shift+Z`, `Ctrl/Cmd+Y`)
  * into a structured action, or `null` if the key event does not match a shortcut.
  */
 export function resolveShortcut(
